@@ -6,11 +6,15 @@ import TimerControl from "./components/TimerControlComponent";
 //state is held here and will be passed to the children
 //state should hold the session cycle and
 //function to increase time on timer and decrease time on timer
+//should have a start/stop button to stop and start the timer countdown
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
+      timerRunning: false,
+      status: "Start",
+      currentTime: "20 : 00",
       cycle: "Session",
       breakTime: 5,
       workTime: 20,
@@ -20,6 +24,7 @@ class App extends Component {
   resetClock = () => {
     this.setState({
       cycle: "Session",
+      currentTime: "20 : 00",
       breakTime: 5,
       workTime: 20,
     });
@@ -55,13 +60,40 @@ class App extends Component {
     });
   };
 
+  startTimer = () => {
+    this.state.timerRunning
+      ? this.setState({
+          timerRunning: false,
+          status: "Start",
+        })
+      : this.setState({
+          timerRunning: true,
+          status: "Stop",
+        });
+  };
+
+  setCurrentTime = () => {
+    if (this.state.timerRunning === false) {
+      this.state.cycle === "Session"
+        ? this.setState({
+            currentTime: this.state.workTime,
+          })
+        : this.setState({
+            currentTime: this.state.breakTime,
+          });
+    }
+  };
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <h1> Clock </h1>
         </header>
-        <Timer session={this.cycle} />
+        <Timer
+          session={this.state.cycle}
+          currentTime={this.state.currentTime}
+        />
         <TimerControl
           breakTime={this.state.breakTime}
           workTime={this.state.workTime}
@@ -69,8 +101,12 @@ class App extends Component {
           onDecrementBreak={this.decrementBreakTime}
           onIncrementWork={this.incrementWorkTime}
           onDecrementWork={this.decrementWorkTime}
+          setCurrentTime={this.setCurrentTime}
         />
-        <button onClick={this.resetClock}> Reset </button>
+        <span>
+          <button onClick={this.resetClock}> Reset </button>
+          <button onClick={this.startTimer}> {this.state.status} </button>
+        </span>
       </div>
     );
   }

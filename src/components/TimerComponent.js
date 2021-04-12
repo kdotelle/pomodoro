@@ -9,7 +9,8 @@ class Timer extends Component {
   render() {
     return (
       <div className="clock">
-        <p> Timer Clock </p>
+        <span className="session">{this.props.session}</span>
+        <p onChange={this.props.setCurrentTime}> {this.props.currentTime} </p>
       </div>
     );
   }
