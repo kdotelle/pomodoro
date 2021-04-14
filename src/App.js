@@ -18,6 +18,7 @@ class App extends Component {
       cycle: "Session",
       breakTime: 5,
       workTime: 20,
+      timerId: 0,
     };
   }
 
@@ -39,24 +40,28 @@ class App extends Component {
   incrementBreakTime = () => {
     this.setState({
       breakTime: this.state.breakTime + 1,
+      currentTime: `${this.state.breakTime} : 00`,
     });
   };
 
   decrementBreakTime = () => {
     this.setState({
       breakTime: this.state.breakTime - 1,
+      currentTime: `${this.state.breakTime} : 00`,
     });
   };
 
   incrementWorkTime = () => {
     this.setState({
       workTime: this.state.workTime + 1,
+      currentTime: `${this.state.workTime} : 00`,
     });
   };
 
   decrementWorkTime = () => {
     this.setState({
       workTime: this.state.workTime - 1,
+      currentTime: `${this.state.workTime} : 00`,
     });
   };
 
@@ -70,6 +75,18 @@ class App extends Component {
           timerRunning: true,
           status: "Stop",
         });
+  };
+
+  timer = () => {
+    if (this.props.timerRunning) {
+      clearInterval(this.props.timerID);
+      this.props.setCurrentTime("25 : 00");
+      this.props.setTimerRuning();
+    } else {
+      this.props.cycle === "Session"
+        ? this.props.startTimer(this.props.workTime)
+        : this.props.startTimer(this.props.breakTime);
+    }
   };
 
   setCurrentTime = () => {
