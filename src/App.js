@@ -38,65 +38,135 @@ class App extends Component {
   };
 
   incrementBreakTime = () => {
-    this.setState({
-      breakTime: this.state.breakTime + 1,
-      currentTime: `${this.state.breakTime} : 00`,
-    });
+    if (this.state.cycle === "Break") {
+      this.setState({
+        breakTime: this.state.breakTime + 1,
+        currentTime: `${this.state.breakTime} : 00`,
+      });
+    } else {
+      this.setState({
+        breakTime: this.state.breakTime + 1,
+      });
+    }
+    this.setCurrentTime();
   };
 
   decrementBreakTime = () => {
-    this.setState({
-      breakTime: this.state.breakTime - 1,
-      currentTime: `${this.state.breakTime} : 00`,
-    });
+    if (this.state.cycle === "Break") {
+      this.setState({
+        breakTime: this.state.breakTime - 1,
+        currentTime: `${this.state.breakTime} : 00`,
+      });
+    } else {
+      this.setState({
+        breakTime: this.state.breakTime - 1,
+      });
+    }
+    this.setCurrentTime();
   };
 
   incrementWorkTime = () => {
-    this.setState({
-      workTime: this.state.workTime + 1,
-      currentTime: `${this.state.workTime} : 00`,
-    });
+    if (this.state.cycle === "Session") {
+      this.setState({
+        workTime: this.state.workTime + 1,
+        currentTime: `${this.state.workTime} : 00`,
+      });
+    } else {
+      this.setState({
+        workTime: this.state.workTime + 1,
+      });
+    }
+    this.setCurrentTime();
   };
 
   decrementWorkTime = () => {
-    this.setState({
-      workTime: this.state.workTime - 1,
-      currentTime: `${this.state.workTime} : 00`,
-    });
+    if (this.state.cycle === "Session") {
+      this.setState({
+        workTime: this.state.workTime - 1,
+        currentTime: `${this.state.workTime} : 00`,
+      });
+    } else {
+      this.setState({
+        workTime: this.state.workTime - 1,
+      });
+    }
+    this.setCurrentTime();
   };
 
-  startTimer = () => {
-    this.state.timerRunning
-      ? this.setState({
-          timerRunning: false,
-          status: "Start",
-        })
-      : this.setState({
-          timerRunning: true,
-          status: "Stop",
-        });
+  // startTimer = () => {
+  //   this.state.timerRunning
+  //     ? this.setState({
+  //         timerRunning: false,
+  //         status: "Start",
+  //       })
+  //     : this.setState({
+  //         timerRunning: true,
+  //         status: "Stop",
+  //       });
+  // };
+
+  startTimer = (duration) => {
+    this.setState({ timerRunning: true });
+    let time = duration * 60;
+    let minutes;
+    let seconds;
+    let runningTimer = setInterval(() => {
+      this.setState({
+        timerId: runningTimer,
+      });
+      minutes = Math.floor(time / 60);
+      seconds = time - minutes * 60;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      this.setState({ currentTime: `${minutes} : ${seconds}` });
+      if (time == 0) {
+        if (this.state.cycle === "Session") {
+          this.setState({
+            cycle: "Break",
+            timerRunning: false,
+            status: "Start",
+          });
+          clearInterval(this.state.timerId);
+          this.startTimer(this.state.breakTime);
+        } else {
+          this.setState({
+            cycle: "Session",
+            timerRunning: false,
+            status: "Stop",
+          });
+          clearInterval(this.state.timerId);
+          this.startTimer(this.state.workTime);
+        }
+      }
+    }, 1000);
   };
 
   timer = () => {
-    if (this.props.timerRunning) {
-      clearInterval(this.props.timerID);
-      this.props.setCurrentTime("25 : 00");
-      this.props.setTimerRuning();
+    if (this.state.timerRunning) {
+      clearInterval(this.state.timerId);
+      this.setState({
+        timerRunning: false,
+        status: "Start",
+      });
     } else {
-      this.props.cycle === "Session"
-        ? this.props.startTimer(this.props.workTime)
-        : this.props.startTimer(this.props.breakTime);
+      this.setState({
+        timerRunning: true,
+        status: "Stop",
+      });
+      this.state.cycle === "Session"
+        ? this.startTimer(this.state.workTime)
+        : this.startTimer(this.state.breakTime);
     }
   };
 
   setCurrentTime = () => {
-    if (this.state.timerRunning === false) {
+    if (!this.state.timerRunning) {
       this.state.cycle === "Session"
         ? this.setState({
-            currentTime: this.state.workTime,
+            currentTime: `${this.state.workTime} : 00`,
           })
         : this.setState({
-            currentTime: this.state.breakTime,
+            currentTime: `${this.state.breakTime} : 00`,
           });
     }
   };
@@ -122,7 +192,7 @@ class App extends Component {
         />
         <span>
           <button onClick={this.resetClock}> Reset </button>
-          <button onClick={this.startTimer}> {this.state.status} </button>
+          <button onClick={this.timer}> {this.state.status} </button>
         </span>
       </div>
     );
