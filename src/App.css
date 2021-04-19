@@ -22,7 +22,8 @@ h1 {
 .controls {
   color: red;
   font-size: 25px;
-  align-content: space-between;
+  display: inline;
+  justify-content: stretch;
 }
 
 .clock {
