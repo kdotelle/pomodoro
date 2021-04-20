@@ -93,38 +93,41 @@ class App extends Component {
     }
   };
 
-  // startTimer = () => {
-  //   this.state.timerRunning
-  //     ? this.setState({
-  //         timerRunning: false,
-  //         status: "Start",
-  //       })
-  //     : this.setState({
-  //         timerRunning: true,
-  //         status: "Stop",
-  //       });
-  // };
-
   startTimer = () => {
     this.setState({ timerRunning: true });
 
     if (!this.state.timerRunning) {
       this.setState({
-        cycle: "Session",
         timerRunning: !this.state.timerRunning,
         status: "Stop",
         timerId: setInterval(() => {
           this.decreaseTimer();
+          this.changeCycle();
         }, 1000),
       });
     } else {
-      clearInterval(this.state.timerId);
+      this.state.timerId && clearInterval(this.state.timerId);
       this.setState({
-        cycle: "Break",
         timerRunning: !this.state.timerRunning,
         status: "Start",
         timerId: null,
       });
+    }
+  };
+
+  changeCycle = () => {
+    if (this.state.currentTime === -1) {
+      if (this.state.cycle === "Session") {
+        this.setState({
+          cycle: "Break",
+          currentTime: this.state.breakTime * 60,
+        });
+      } else {
+        this.setState({
+          cycle: "Session",
+          currentTime: this.state.workTime * 60,
+        });
+      }
     }
   };
 
