@@ -11,6 +11,7 @@ class TimerControl extends Component {
     return (
       <div className="controls">
         <p> Timer Controls </p>
+
         <BreakController
           break={this.props.breakTime}
           onIncrementBreak={this.props.onIncrementBreak}
@@ -21,6 +22,9 @@ class TimerControl extends Component {
           onIncrementWork={this.props.onIncrementWork}
           onDecrementWork={this.props.onDecrementWork}
         />
+
+        <button onClick={this.props.resetClock}> Reset </button>
+        <button onClick={this.props.timer}> {this.props.status} </button>
       </div>
     );
   }

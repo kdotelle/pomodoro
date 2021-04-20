@@ -174,12 +174,10 @@ class App extends Component {
             onIncrementWork={this.incrementWorkTime}
             onDecrementWork={this.decrementWorkTime}
             setCurrentTime={this.setCurrentTime}
+            status={this.state.status}
+            reset={this.resetClock}
           />
         </div>
-        <span>
-          <button onClick={this.resetClock}> Reset </button>
-          <button onClick={this.timer}> {this.state.status} </button>
-        </span>
       </div>
     );
   }
