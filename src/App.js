@@ -159,7 +159,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1> Clock </h1>
+          <h1> Pomodoro Clock </h1>
         </header>
         <Timer
           session={this.state.cycle}
