@@ -20,7 +20,7 @@ h1 {
 }
 
 #control-wrapper {
-  display: inline-block;
+  display: inline;
   width: 100px;
   height: 100px;
   margin: 15px;
@@ -32,16 +32,24 @@ h1 {
 .controls {
   color: red;
   font-size: 30px;
-  display: block;
+  display: inline-grid;
 }
 
-.controls button:hover {
+button {
+  border: white;
+  background-color: #fede27;
+  margin: 2px;
+  font-size: 20px;
+  color: black;
+  margin: 5px 10px;
+  padding: 10px 24px;
+  text-align: center;
+  display: inline-block;
+}
+
+button:hover {
   cursor: pointer;
-}
-
-.controls > button {
-  padding: 5px;
-  margin: 15px 2px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .clock {
@@ -50,15 +58,16 @@ h1 {
   border-radius: 50%;
   border-width: 5px;
   margin: 55px;
-  padding: 10px;
+  padding: 20px;
   height: 250px;
   width: 250px;
-  display: inline-block;
+  display: inline-grid;
   color: rgba(255, 255, 255, 0.904);
   font-size: 50px;
 }
 
 .session {
-  font-size: 20px;
+  font-size: 30px;
   color: rgba(255, 255, 255, 0.904);
+  margin-top: 10px;
 }
