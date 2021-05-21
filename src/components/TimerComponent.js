@@ -23,7 +23,24 @@ class Timer extends Component {
           {" "}
           {formatTime(this.props.currentTime)}{" "}
         </p>
+        <Sound sound={this.props.sound} setSound={this.props.setSound} />
       </div>
+    );
+  }
+}
+
+class Sound extends Component {
+  toggleSound = () => {
+    this.props.sound === "on"
+      ? this.props.setSound("off")
+      : this.props.setSound("on");
+  };
+  render() {
+    return (
+      <button onClick={this.toggleSound}>
+        {" "}
+        <i class="fas fa-volume-up" />{" "}
+      </button>
     );
   }
 }

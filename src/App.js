@@ -19,8 +19,15 @@ class App extends Component {
       breakTime: 5,
       workTime: 25,
       timerId: null,
+      sound: "on",
     };
   }
+
+  setSound = (sound) => {
+    this.setState({
+      sound: sound,
+    });
+  };
 
   resetClock = () => {
     this.setState({
@@ -164,6 +171,8 @@ class App extends Component {
         <Timer
           session={this.state.cycle}
           currentTime={this.state.currentTime}
+          sound={this.state.sound}
+          setSound={this.setSound}
         />
         <div id="control-wrapper">
           <TimerControl
