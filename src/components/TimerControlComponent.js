@@ -23,8 +23,8 @@ class TimerControl extends Component {
           onDecrementWork={this.props.onDecrementWork}
         />
 
-        <button onClick={this.props.resetClock}> Reset </button>
-        <button onClick={this.props.timer}> {this.props.status} </button>
+        <button onClick={this.props.reset}> Reset </button>
+        <button onClick={this.props.start}> {this.props.status} </button>
       </div>
     );
   }
