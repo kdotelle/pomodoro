@@ -28,6 +28,7 @@ class App extends Component {
       currentTime: 25 * 60,
       breakTime: 5,
       workTime: 25,
+      timerRunning: false,
     });
   };
 
